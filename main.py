@@ -13,7 +13,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
-from data_loader import load_from_csv, load_from_s3
+from data_loader import local_config_loader, remote_config_loader
 from conf import conf
 from preprocessing import balance_data, remove_outliers
 from variables import path_variables, conf_variables, app_info
@@ -44,9 +44,9 @@ def load_data(spark_session):
             a dataframe that contains the data
     """
     if conf["REMOTE"]:
-        return load_from_s3(spark_session)
+        return remote_config_loader(spark_session)
     else:
-        return load_from_csv(spark_session, 1)  # it requires the data file in ./dataset/1.csv
+        return local_config_loader(spark_session, 1)  # it requires the data file in ./dataset/1.csv
 
 
 def preprocessing(spark_dataframe):
@@ -80,6 +80,13 @@ def main():
     preprocessed_spark_dataframe = spark_session.createDataFrame(preprocessed_pd_dataframe)
     w = Window().orderBy('Time')
     preprocessed_spark_dataframe = preprocessed_spark_dataframe.withColumn("ID", row_number().over(w))
+
+    # TODO:
+    #  1. split dataframe in training and test
+    #  2. build classifier
+    #  3. classify
+    #  4. evaluate result
+    #  5. generate confusion matrix, recall, precision e f-measure
 
 
 if __name__ == '__main__':

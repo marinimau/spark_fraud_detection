@@ -10,8 +10,8 @@
 from variables import dataset_names as dn
 
 
-def load_from_csv(spark_session, dataset_name):
-    """Load the data from a csv file
+def local_config_loader(spark_session, dataset_name):
+    """Load the data from a csv local file
         :parameter:
             spark_session: the Spark session
             dataset_name: the name of the dataset (integer)
@@ -26,5 +26,5 @@ def load_from_csv(spark_session, dataset_name):
     return df
 
 
-def load_from_s3(spark_session):
+def remote_config_loader(spark_session):
     return None
