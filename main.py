@@ -7,8 +7,11 @@
 #   Credits: @marinimau (https://github.com/marinimau)
 #
 
-from pyspark.sql import SparkSession
 import os
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.window import Window
 
 from data_loader import load_from_csv, load_from_s3
 from conf import conf
@@ -46,14 +49,15 @@ def load_data(spark_session):
         return load_from_csv(spark_session, 1)  # it requires the data file in ./dataset/1.csv
 
 
-def preprocessing(dataframe):
+def preprocessing(spark_dataframe):
     """Preprocessing the data
     :param
-        dataframe: the raw data dataframe
+        spark_dataframe: the raw data dataframe
     :return:
         the preprocessed dataframe
     """
-    pd_dataframe = dataframe.toPandas()
+    # convert dataframe to pandas
+    pd_dataframe = spark_dataframe.toPandas()
     pd_dataframe = pd_dataframe.sample(frac=1)
 
     # remove outliers
@@ -70,7 +74,12 @@ def main():
     :return:
     """
     spark_session, spark_context = initialize_spark()
-    dataframe = preprocessing(load_data(spark_session))
+    preprocessed_pd_dataframe = preprocessing(load_data(spark_session))
+
+    # return to spark dataframe
+    preprocessed_spark_dataframe = spark_session.createDataFrame(preprocessed_pd_dataframe)
+    w = Window().orderBy('Time')
+    preprocessed_spark_dataframe = preprocessed_spark_dataframe.withColumn("ID", row_number().over(w))
 
 
 if __name__ == '__main__':
