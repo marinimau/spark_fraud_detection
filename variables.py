@@ -22,3 +22,5 @@ conf_variables = {
     "master_ip": "172.31.80.101" if conf['REMOTE'] else "127.0.0.1",
     "master_spark_port": "7077"
 }
+
+dataset_names = [1, 2]
