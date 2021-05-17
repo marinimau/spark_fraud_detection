@@ -13,8 +13,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
-from data_loader import local_config_loader, remote_config_loader
-from conf import conf
+from data_loader import loader
 from preprocessing import balance_data, remove_outliers
 from variables import path_variables, conf_variables, app_info
 
@@ -34,19 +33,6 @@ def initialize_spark():
     spark_context = spark_session.sparkContext
     spark_context.setLogLevel("Error")
     return spark_session, spark_context
-
-
-def load_data(spark_session):
-    """Load the data
-        :parameter:
-            spark_session: the Spark session
-        :return:
-            a dataframe that contains the data
-    """
-    if conf["REMOTE"]:
-        return remote_config_loader(spark_session)
-    else:
-        return local_config_loader(spark_session, 1)  # it requires the data file in ./dataset/1.csv
 
 
 def preprocessing(spark_dataframe):
@@ -74,7 +60,7 @@ def main():
     :return:
     """
     spark_session, spark_context = initialize_spark()
-    preprocessed_pd_dataframe = preprocessing(load_data(spark_session))
+    preprocessed_pd_dataframe = preprocessing(loader(spark_session))
 
     # return to spark dataframe
     preprocessed_spark_dataframe = spark_session.createDataFrame(preprocessed_pd_dataframe)

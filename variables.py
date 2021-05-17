@@ -23,4 +23,5 @@ conf_variables = {
     "master_spark_port": "7077"
 }
 
-dataset_names = [1, 2]
+dataset_path = "s3://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",
+

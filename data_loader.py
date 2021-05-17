@@ -7,24 +7,17 @@
 #   Credits: @marinimau (https://github.com/marinimau)
 #
 
-from variables import dataset_names as dn
+from variables import dataset_path
 
 
-def local_config_loader(spark_session, dataset_name):
-    """Load the data from a csv local file
+def loader(spark_session):
+    """Load the data from a csv file stored on S3
         :parameter:
             spark_session: the Spark session
-            dataset_name: the name of the dataset (integer)
         :return:
             a dataframe that contains the data
     """
-    assert(dataset_name in dn)
-    df = (spark_session.read
-          .format("csv")
-          .option('header', 'true')
-          .load('datasets/' + str(dataset_name) + ".csv"))
+    df = spark_session.read.load(dataset_path, format="csv", sep=",", inferSchema="true", header="true")
+    # note: check variables.py to alter the dataset path
+
     return df
-
-
-def remote_config_loader(spark_session):
-    return None
