@@ -25,3 +25,8 @@ conf_variables = {
 
 dataset_path = "s3://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",
 
+classifier_variables = {
+    "percentage_split_training": 0.8,
+    "training_test_splitting_seed": 698
+}
+
