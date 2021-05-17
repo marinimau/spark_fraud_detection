@@ -13,8 +13,10 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
+from classifier import Classifier
 from data_loader import loader
 from preprocessing import balance_data, remove_outliers
+from result_evaluator import evaluate_predictions
 from variables import path_variables, conf_variables, app_info
 
 os.environ["JAVA_HOME"] = path_variables["java_home"]
@@ -67,12 +69,12 @@ def main():
     w = Window().orderBy('Time')
     preprocessed_spark_dataframe = preprocessed_spark_dataframe.withColumn("ID", row_number().over(w))
 
-    # TODO:
-    #  1. split dataframe in training and test
-    #  2. build classifier
-    #  3. classify
-    #  4. evaluate result
-    #  5. generate confusion matrix, recall, precision e f-measure
+    # initialize the classifier class and classify
+    classifier = Classifier(preprocessed_spark_dataframe, spark_session)
+    predictions = classifier.classify()
+
+    # get the evaluation metrics
+    binary_evaluator, metrics = evaluate_predictions(predictions)
 
 
 if __name__ == '__main__':
