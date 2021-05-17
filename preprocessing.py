@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 from scipy import stats
 
+from variables import preprocessing_variables
+
 
 def remove_outliers(dataframe):
     """Filter the dataframe removing rows having one or more attributes with z-score >= 3
@@ -19,7 +21,10 @@ def remove_outliers(dataframe):
     :return:
         the Pandas dataframe without outliers
     """
-    return dataframe[(np.abs(stats.zscore(dataframe.iloc[:, 1:29])) < 3).all(axis=1)]
+    if preprocessing_variables["remove_outliers"]:
+        return dataframe[(np.abs(stats.zscore(dataframe.iloc[:, 1:29])) < 3).all(axis=1)]
+    else:
+        return dataframe
 
 
 def balance_data(dataframe):
@@ -29,7 +34,10 @@ def balance_data(dataframe):
     :return:
         a balanced Pandas dataframe
     """
-    fraud_dataframe = dataframe[dataframe['Class'] == 1]
-    fraud_records_count = len(fraud_dataframe)
-    not_fraud_dataframe = dataframe[dataframe['Class'] == 0].sample(n=fraud_records_count, random_state=1)
-    return pd.concat([fraud_dataframe, not_fraud_dataframe]).sample(frac=1, random_state=47)
+    if preprocessing_variables["balance_dataframe"]:
+        fraud_dataframe = dataframe[dataframe['Class'] == 1]
+        fraud_records_count = len(fraud_dataframe)
+        not_fraud_dataframe = dataframe[dataframe['Class'] == 0].sample(n=fraud_records_count, random_state=1)
+        return pd.concat([fraud_dataframe, not_fraud_dataframe]).sample(frac=1, random_state=47)
+    else:
+        return dataframe

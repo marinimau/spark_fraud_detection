@@ -7,6 +7,7 @@
 #   Credits: @marinimau (https://github.com/marinimau)
 #
 
+from pyspark.ml.classification import GBTClassifier
 from pyspark.ml.linalg import DenseVector
 
 from variables import classifier_variables
@@ -50,3 +51,12 @@ class Classifier:
         return training_df.randomSplit(
             [classifier_variables["percentage_split_training"], 1 - classifier_variables["percentage_split_training"]],
             seed=classifier_variables["training_test_splitting_seed"])
+
+    def classify(self):
+        """Classify the data
+        :return:
+            the prediction
+        """
+        gbt = GBTClassifier(featuresCol="features", maxIter=100, maxDepth=8)
+        model = gbt.fit(self.training_dataframe)
+        return model.transform(self.test_dataframe)

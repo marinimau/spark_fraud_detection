@@ -13,11 +13,13 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
+from conf import conf
 from classifier import Classifier
 from data_loader import loader
 from preprocessing import balance_data, remove_outliers
 from result_evaluator import evaluate_predictions
 from variables import path_variables, conf_variables, app_info
+from utils import print_prediction_metrics
 
 os.environ["JAVA_HOME"] = path_variables["java_home"]
 os.environ["SPARK_HOME"] = path_variables["spark_home"]
@@ -75,6 +77,9 @@ def main():
 
     # get the evaluation metrics
     binary_evaluator, metrics = evaluate_predictions(predictions)
+
+    if conf["VERBOSE"]:
+        print_prediction_metrics(metrics)
 
 
 if __name__ == '__main__':

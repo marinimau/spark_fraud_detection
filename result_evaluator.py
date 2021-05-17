@@ -6,6 +6,8 @@
 #   Repository: https://github.com/marinimau/spark_fraud_detection
 #   Credits: @marinimau (https://github.com/marinimau)
 #
+
+import numpy as np
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 
 
@@ -22,7 +24,7 @@ def get_all_metrics(predictions):
     false_negative = predictions[(predictions.label == 1) & (predictions.prediction == 0)].count()
 
     return {
-        "confusion_matrix": [[true_positive, false_positive], [false_negative, true_negative]],
+        "confusion_matrix": np.array([[true_positive, false_positive], [false_negative, true_negative]]),
         "precision": true_positive / (true_positive + false_positive),
         "recall": true_positive / (true_positive + false_negative),
         "accuracy": (true_positive + true_negative) / (true_positive + false_positive + false_negative + true_negative),

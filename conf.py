@@ -8,5 +8,6 @@
 #
 
 conf = {
-    'REMOTE': True  # if true the application can run on aws, otherwise it uses the params to run locally
+    'REMOTE': True,  # if true the application can run on aws, otherwise it uses the params to run locally
+    'VERBOSE': True  # if true the applications prints the result of the test (computation time is always printed)
 }
