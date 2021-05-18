@@ -34,4 +34,3 @@ classifier_variables = {
     "percentage_split_training": 0.8,
     "training_test_splitting_seed": 698
 }
-
