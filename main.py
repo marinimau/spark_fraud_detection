@@ -8,6 +8,7 @@
 #
 
 import os
+import time
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
@@ -19,7 +20,7 @@ from data_loader import loader
 from preprocessing import balance_data, remove_outliers
 from result_evaluator import evaluate_predictions
 from variables import path_variables, conf_variables, app_info
-from utils import print_prediction_metrics
+from utils import print_prediction_metrics, calculate_elapsed_time, write_time_on_file
 
 os.environ["JAVA_HOME"] = path_variables["java_home"]
 os.environ["SPARK_HOME"] = path_variables["spark_home"]
@@ -71,9 +72,16 @@ def main():
     w = Window().orderBy('Time')
     preprocessed_spark_dataframe = preprocessed_spark_dataframe.withColumn("ID", row_number().over(w))
 
+    # time start
+    start = time.time()
+
     # initialize the classifier class and classify
     classifier = Classifier(preprocessed_spark_dataframe, spark_session)
     predictions = classifier.classify()
+
+    # time end
+    end = time.time()
+    write_time_on_file(calculate_elapsed_time(start, end))
 
     # get the evaluation metrics
     binary_evaluator, metrics = evaluate_predictions(predictions)
