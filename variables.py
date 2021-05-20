@@ -10,17 +10,19 @@
 from conf import conf
 
 path_variables = {
-    "java_home2": "/usr/lib/jvm/java-8-openjdk-amd64" if conf['REMOTE'] else "/usr/lib/jvm/java-8-openjdk-amd64",
-    "spark_home": "/opt/spark-3.0.1-bin-hadoop2.7/" if conf['REMOTE'] else "/opt/spark-3.0.1-bin-hadoop2.7/"
+    "java_home": "/usr/lib/jvm/java-8-openjdk-amd64" if conf['REMOTE'] else "/Users/mauromarini/11.0.10/libexec/openjdk.jdk/Contents/Home",
+    "spark_home": "/opt/spark-3.0.1-bin-hadoop2.7/" if conf[
+        'REMOTE'] else "/opt/homebrew/Cellar/apache-spark/3.1.1/libexec"
 }
 
 app_info = {
-    "app_name": "FraudDetection"
+    "app_name": "FraudDetection" if conf['REMOTE'] else "spark"
 }
 
 conf_variables = {
     "master_ip": "172.31.80.101" if conf['REMOTE'] else "127.0.0.1",
-    "master_spark_port": "7077"
+    "master_port": "7077" if conf["REMOTE"] else "4040",
+    "protocol": "spark://"
 }
 
 dataset_path = "s3://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",

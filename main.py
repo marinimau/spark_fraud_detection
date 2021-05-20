@@ -33,7 +33,7 @@ def initialize_spark():
             the Spark session and the Spark context
     """
     spark_session = SparkSession.builder.master(
-        "spark://" + conf_variables["master_ip"] + ":" + conf_variables["master_port"]).appName(
+         conf_variables["protocol"] + conf_variables["master_ip"] + ":" + conf_variables["master_port"]).appName(
         app_info["app_name"]).enableHiveSupport().getOrCreate()
     spark_context = spark_session.sparkContext
     spark_context.setLogLevel("Error")
