@@ -11,7 +11,7 @@ from conf import conf
 
 path_variables = {
     "java_home": "/usr/lib/jvm/java-8-openjdk-amd64" if conf['REMOTE'] else "<YOUR_JAVA_HOME_PATH>",
-    "spark_home": "/opt/spark-3.1.1-bin-hadoop2.7/" if conf['REMOTE'] else "<YOUR_SPARK_HOME_PATH>"
+    "spark_home": "/opt/spark-3.0.1-bin-hadoop2.7/" if conf['REMOTE'] else "<YOUR_SPARK_HOME_PATH>"
 }
 
 app_info = {
