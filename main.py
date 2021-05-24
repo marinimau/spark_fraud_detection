@@ -37,6 +37,8 @@ def initialize_spark():
         app_info["app_name"]).enableHiveSupport().getOrCreate()
     spark_context = spark_session.sparkContext
     spark_context.setLogLevel("Error")
+    hadoop_conf = spark_context.hadoopConfiguration
+    hadoop_conf.set("fs.s3.impl", "org.apache.hadoop.fs.s3native.NativeS3FileSystem")
     return spark_session, spark_context
 
 

@@ -8,6 +8,7 @@
 #
 
 from variables import dataset_path
+from conf import conf
 
 
 def loader(spark_session):
@@ -17,7 +18,10 @@ def loader(spark_session):
         :return:
             a dataframe that contains the data
     """
-    df = spark_session.read.load(dataset_path, format="csv", sep=",", inferSchema="true", header="true")
+    if conf["VERBOSE"]:
+        print("start download...\n")
+    df = spark_session.read.csv(dataset_path, format="csv", sep=",", inferSchema="true", header="true")
     # note: check variables.py to alter the dataset path
-
+    if conf["VERBOSE"]:
+        print("download OK...\n")
     return df

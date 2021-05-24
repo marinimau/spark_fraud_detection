@@ -24,7 +24,7 @@ conf_variables = {
     "protocol": "spark://"
 }
 
-dataset_path = "s3://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",
+dataset_path = "s3a://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",
 
 preprocessing_variables = {
     "balance_dataframe": True,
