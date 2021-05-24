@@ -10,18 +10,17 @@
 from conf import conf
 
 path_variables = {
-    "java_home": "/usr/lib/jvm/java-8-openjdk-amd64" if conf['REMOTE'] else "/Users/mauromarini/11.0.10/libexec/openjdk.jdk/Contents/Home",
-    "spark_home": "/opt/spark-3.0.1-bin-hadoop2.7/" if conf[
-        'REMOTE'] else "/opt/homebrew/Cellar/apache-spark/3.1.1/libexec"
+    "java_home": "/usr/lib/jvm/java-8-openjdk-amd64" if conf['REMOTE'] else "<YOUR_JAVA_HOME_PATH>",
+    "spark_home": "/opt/spark-3.1.1-bin-hadoop2.7/" if conf['REMOTE'] else "<YOUR_SPARK_HOME_PATH>"
 }
 
 app_info = {
-    "app_name": "FraudDetection" if conf['REMOTE'] else "spark"
+    "app_name": "FraudDetection" if conf['REMOTE'] else "<YOUR_LOCAL_APP_MAIN>"
 }
 
 conf_variables = {
     "master_ip": "172.31.80.101" if conf['REMOTE'] else "127.0.0.1",
-    "master_port": "7077" if conf["REMOTE"] else "4040",
+    "master_port": "7077" if conf["REMOTE"] else "<YOUR_LOCAL_PORT>",
     "protocol": "spark://"
 }
 
