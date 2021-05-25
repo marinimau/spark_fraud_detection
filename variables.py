@@ -14,6 +14,8 @@ path_variables = {
     "spark_home": "/opt/spark-3.0.1-bin-hadoop2.7/" if conf['REMOTE'] else "<YOUR_SPARK_HOME_PATH>"
 }
 
+spark_args = "--packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://s01:7077  --executor-cores 2 --executor-memory 20g"
+
 app_info = {
     "app_name": "FraudDetection" if conf['REMOTE'] else "spark"
 }

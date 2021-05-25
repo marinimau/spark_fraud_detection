@@ -19,11 +19,12 @@ from classifier import Classifier
 from data_loader import loader
 from preprocessing import balance_data, remove_outliers
 from result_evaluator import evaluate_predictions
-from variables import path_variables, conf_variables, app_info
+from variables import path_variables, spark_args, conf_variables, app_info
 from utils import print_prediction_metrics, calculate_elapsed_time, write_time_on_file
 
 os.environ["JAVA_HOME"] = path_variables["java_home"]
 os.environ["SPARK_HOME"] = path_variables["spark_home"]
+os.environ['PYSPARK_SUBMIT_ARGS'] = spark_args
 
 
 def initialize_spark():
@@ -37,8 +38,6 @@ def initialize_spark():
         app_info["app_name"]).enableHiveSupport().getOrCreate()
     spark_context = spark_session.sparkContext
     spark_context.setLogLevel("Error")
-    hadoop_conf = spark_context.hadoopConfiguration
-    hadoop_conf.set("fs.s3.impl", "org.apache.hadoop.fs.s3native.NativeS3FileSystem")
     return spark_session, spark_context
 
 
