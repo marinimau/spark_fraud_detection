@@ -19,11 +19,12 @@ def remove_outliers(dataframe):
     """Filter the dataframe removing rows having one or more attributes with z-score >= 3
     :param
         dataframe: the Pandas dataframe with outliers
-    :return:
+    :return:ß∑
         the Pandas dataframe without outliers
     """
     if preprocessing_variables["remove_outliers"]:
-        return dataframe[(np.abs(stats.zscore(dataframe.iloc[:, 1:29])) < 3).all(axis=1)]
+        return dataframe[
+            (np.abs(stats.zscore(dataframe.iloc[:, 1:29])) < preprocessing_variables["remove_threshold"]).all(axis=1)]
     else:
         return dataframe
 

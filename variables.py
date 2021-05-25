@@ -36,6 +36,7 @@ data_load_variables = {
 preprocessing_variables = {
     "balance_dataframe": True,
     "remove_outliers": True,
+    "remove_threshold": 5
 }
 
 classifier_variables = {
