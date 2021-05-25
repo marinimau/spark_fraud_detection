@@ -38,7 +38,7 @@ def calculate_elapsed_time(start_time, end_time):
     """
     elapsed_time = end_time - start_time
     if conf["VERBOSE"]:
-        print("Elapsed time: " + elapsed_time + "\n")
+        print("Elapsed time: " + str(elapsed_time) + "\n")
     return elapsed_time
 
 
