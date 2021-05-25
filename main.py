@@ -41,15 +41,13 @@ def initialize_spark():
     return spark_session, spark_context
 
 
-def preprocessing(spark_dataframe):
+def preprocessing(pd_dataframe):
     """Preprocessing the data
     :param
-        spark_dataframe: the raw data dataframe
+        pd_dataframe: the raw data dataframe
     :return:
         the preprocessed dataframe
     """
-    # convert dataframe to pandas
-    pd_dataframe = spark_dataframe.toPandas()
     pd_dataframe = pd_dataframe.sample(frac=1)
 
     # remove outliers
@@ -70,7 +68,7 @@ def main():
     # download data
     if conf["VERBOSE"]:
         print("start download...\n")
-    raw_dataframe = loader(spark_session)
+    raw_dataframe = loader()
 
     # preprocessing
     if conf["VERBOSE"]:

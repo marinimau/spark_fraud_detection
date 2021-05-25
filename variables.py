@@ -28,8 +28,9 @@ conf_variables = {
 
 data_load_variables = {
     "use_lite_dataset": True,
-    "dataset_path": "s3://marinimau/1.csv",
-    "lite_dataset_path": "s3://marinimau/1.csv",
+    "bucket": 'marinimau',
+    "dataset_name": "s3://marinimau/1.csv",
+    "lite_dataset_name": "s3://marinimau/1.csv",
 }
 
 preprocessing_variables = {

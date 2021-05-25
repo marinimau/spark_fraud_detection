@@ -3,3 +3,4 @@ pandas
 numpy
 scipy
 awscli
+boto3

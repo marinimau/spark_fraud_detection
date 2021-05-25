@@ -22,8 +22,10 @@ def print_prediction_metrics(metrics):
     :return:
     """
     print(
-        "Confusion matrix:\n" + metrics["confusion_matrix"] + "\n\nPrecision: " + metrics["precision"] + "\nRecall: " +
-        metrics["recall"] + "\nAccuracy: " + metrics["accuracy"] + "\nF-measure: " + metrics["f-measure"] + "\n\n")
+        "Confusion matrix:\n" + str(metrics["confusion_matrix"]) + "\n\nPrecision: " + str(
+            metrics["precision"]) + "\nRecall: " +
+        str(metrics["recall"]) + "\nAccuracy: " + str(metrics["accuracy"]) + "\nF-measure: " + str(
+            metrics["f-measure"]) + "\n\n")
 
 
 def calculate_elapsed_time(start_time, end_time):
