@@ -67,13 +67,24 @@ def main():
     :return:
     """
     spark_session, spark_context = initialize_spark()
-    preprocessed_pd_dataframe = preprocessing(loader(spark_session))
 
-    # return to spark dataframe
+    # download data
+    if conf["VERBOSE"]:
+        print("start download...\n")
+    raw_dataframe = loader(spark_session)
+
+    # preprocessing
+    if conf["VERBOSE"]:
+        print("preprocessing...\n")
+    preprocessed_pd_dataframe = preprocessing(raw_dataframe)
+
+    # return to spark dataframe and make some adjustment
     preprocessed_spark_dataframe = spark_session.createDataFrame(preprocessed_pd_dataframe)
     w = Window().orderBy('Time')
     preprocessed_spark_dataframe = preprocessed_spark_dataframe.withColumn("ID", row_number().over(w))
 
+    if conf["VERBOSE"]:
+        print("classifier task start...\n")
     # time start
     start = time.time()
 
@@ -83,6 +94,8 @@ def main():
 
     # time end
     end = time.time()
+
+    # store time on file
     write_time_on_file(calculate_elapsed_time(start, end))
 
     # get the evaluation metrics

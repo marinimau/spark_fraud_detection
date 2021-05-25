@@ -2,3 +2,4 @@ pyspark
 pandas
 numpy
 scipy
+awscli
