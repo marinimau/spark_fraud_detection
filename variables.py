@@ -35,7 +35,7 @@ data_load_variables = {
 
 preprocessing_variables = {
     "balance_dataframe": True,
-    "remove_outliers": True,
+    "remove_outliers": False,  # best results without outliers removing
     "remove_threshold": 5
 }
 
