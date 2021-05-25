@@ -17,7 +17,7 @@ path_variables = {
 spark_args = "--packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://s01:7077  --executor-cores 2 --executor-memory 20g"
 
 app_info = {
-    "app_name": "FraudDetection" if conf['REMOTE'] else "spark"
+    "app_name": "FraudDetection" if conf['REMOTE'] else "<YOUR_APP_NAME>"
 }
 
 conf_variables = {
@@ -27,10 +27,10 @@ conf_variables = {
 }
 
 data_load_variables = {
-    "use_lite_dataset": True,
+    "use_lite_dataset": False,  # only for test
     "bucket": 'marinimau',
-    "dataset_name": "s3://marinimau/1.csv",
-    "lite_dataset_name": "s3://marinimau/1.csv",
+    "dataset_name": "1.csv",
+    "lite_dataset_name": "1_lite.csv",
 }
 
 preprocessing_variables = {
