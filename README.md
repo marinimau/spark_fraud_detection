@@ -10,6 +10,9 @@ The algorithm is divided in the following phases:
 5. Model construction and classification
 8. Results evaluation
 
+To run this project you need to have an AWS account and run [Spark-Terraform](https://github.com/marinimau/spark-terraform) to build the infrastructure.
+Detailed instructions are in the [this](#Instructions) section.
+
 ## Contents
 
 * [Dataset](#Dataset)
@@ -17,6 +20,7 @@ The algorithm is divided in the following phases:
 * [Instructions](#Instructions)
 * [Configuration](#Configuration)
 * [Dependencies](#Dependencies)
+* [Results](#Results)
 
 ## Dataset 
 
@@ -49,6 +53,18 @@ It contains only numerical input variables which are the result of a PCA transfo
 
 ## Instructions
 
+1. Download spark-terraform and spark_fraud_detection
+
+```
+git clone https://github.com/marinimau/spark-terraform.git
+git clone https://github.com/marinimau/spark_fraud_detection.git
+```
+
+2. Move "spark_fraud_detection" python files in the "app" directory inside "spark-terraform"
+
+```
+mv spark_fraud_detection/*.py spark-terraform/app/
+```
 
 ## Configuration
 
@@ -79,6 +95,22 @@ The editable params are organized in 2 files:
 * [Numpy](https://pypi.org/project/numpy/)
 * [Scipy](https://pypi.org/project/scipy/)
 * [Boto3](https://pypi.org/project/boto3/)
+
+## Results
+
+#### Classification
+
+#### Time
+
+| #Instances     |  Time   |
+|----------------|---------|
+| 1              |  bool   |
+| 2              |  bool   |
+| 3              |  bool   |
+| 4              |  bool   |
+| 5              |  bool   |
+| 6              |  bool   |
+
 
 
 
