@@ -7,7 +7,7 @@
 #   Credits: @marinimau (https://github.com/marinimau)
 #
 
-from variables import dataset_path
+from variables import data_load_variables
 
 
 def loader(spark_session):
@@ -17,6 +17,10 @@ def loader(spark_session):
         :return:
             a dataframe that contains the data
     """
-    df = spark_session.read.csv(dataset_path, format="csv", sep=",", inferSchema="true", header="true")
+    if data_load_variables["use_lite_dataset"]:
+        path = data_load_variables["lite_dataset_path"]
+    else:
+        path = data_load_variables["dataset_path"]
+    df = spark_session.read.csv(path)
     # note: check variables.py to alter the dataset path
     return df

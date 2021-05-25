@@ -26,7 +26,11 @@ conf_variables = {
     "protocol": "spark://"
 }
 
-dataset_path = "s3://marinimau/1.csv" if conf['REMOTE'] else "datasets/1.csv",
+data_load_variables = {
+    "use_lite_dataset": True,
+    "dataset_path": "s3://marinimau/1.csv",
+    "lite_dataset_path": "s3://marinimau/1.csv",
+}
 
 preprocessing_variables = {
     "balance_dataframe": True,
