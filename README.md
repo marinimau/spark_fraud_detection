@@ -226,11 +226,11 @@ $SPARK_HOME/sbin/start-slaves.sh spark://s01:7077
 
 3. Configure your aws credential
 
-```
+```shell script
 aws configure
 ```
 
-put the same values used in the file terraform.tfvars
+put, when required, the same values used in the file terraform.tfvars
 
 **IMPORTANT**: region is '**us-east-1**'
 
@@ -263,37 +263,6 @@ The editable params are organized in 2 files:
 | REMOTE         |  bool   | if True use the params optimized for aws   | True                  |
 | VERBOSE        |  bool   | log in the standard output                 | True                  |
 
-## Dependencies
-
-* [Pyspark](https://pypi.org/project/pyspark/)
-* [Pandas](https://pypi.org/project/pandas/)
-* [Numpy](https://pypi.org/project/numpy/)
-* [Scipy](https://pypi.org/project/scipy/)
-* [Boto3](https://pypi.org/project/boto3/)
-
-## Results
-
-#### Classification
-
-#### Time
-
-| #Instances     |  Time   |
-|----------------|---------|
-| 1              |  bool   |
-| 2              |  bool   |
-| 3              |  bool   |
-| 4              |  bool   |
-| 5              |  bool   |
-| 6              |  bool   |
-
-
-
-
-
-
-
-## Variables
-
 | Name           | Description                                | Default               |
 |----------------|--------------------------------------------|-----------------------|
 | region         | AWS region                                 | us-east-1             |
@@ -310,6 +279,29 @@ The editable params are organized in 2 files:
 | datanode_count | Datanode count                             | 3                     |
 | ips            | Default private ips used for nodes         | See variables.tf      |
 | hostnames      | Default private hostnames used for nodes   | See variables.tf      |
+
+## Dependencies
+
+* [Pyspark](https://pypi.org/project/pyspark/)
+* [Pandas](https://pypi.org/project/pandas/)
+* [Numpy](https://pypi.org/project/numpy/)
+* [Scipy](https://pypi.org/project/scipy/)
+* [Boto3](https://pypi.org/project/boto3/)
+
+## Results
+
+#### Classification
+
+#### Time
+
+| #Instances     |  Time   |
+|----------------|---------|
+| 1              |  -   |
+| 2              |  -   |
+| 3              |  -   |
+| 4              |  -   |
+| 5              |  -   |
+| 6              |  -   |
 
 
 ## Credits
