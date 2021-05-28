@@ -108,7 +108,7 @@ git clone https://github.com/marinimau/spark_fraud_detection.git
 3. Get your credentials from aws console and set them in the "terraform.tfvars"
 
 
-4. Get a .pem AWS key following the [guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) and put it in the root of the project. **Call it amzkey** 
+4. Get a .pem AWS key (following the [docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair)) and put it in the root of the project. **Call it amzkey** 
 
 
 5. Go to the project root
