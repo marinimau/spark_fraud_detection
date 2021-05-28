@@ -21,6 +21,7 @@ Detailed instructions are in the [this](#Instructions) section.
 * [Configuration](#Configuration)
 * [Dependencies](#Dependencies)
 * [Results](#Results)
+* [Credits](#Credits)
 
 ## Dataset 
 
@@ -32,39 +33,213 @@ It contains only numerical input variables which are the result of a PCA transfo
 ## Project structure
 
 ```
+    
 + - + spark_fraud_detection
     |
-    + - + classifier.py: Model construction and classification
+    + - + configuration_files: file to configure the infrastructure, all the files contained in this directory are passed to ec2 instances by terraform
+    |   | 
+    |   + - + core-sites.xml
+    |   | 
+    |   + - + datanode_hostnames.txt: the list of datanodes (hostname only)
+    |   | 
+    |   + - + hadoop_paths.sh: hadoop installation paths
+    |   | 
+    |   + - + hdfs-site.xml
+    |   | 
+    |   + - + hosts.txt: a list of pair (IP, hostname) of the hosts (namenonde and datanode)
+    |   | 
+    |   + - + mapred-sites.xml
+    |   | 
+    |   + - + namenode_hostname.txt:  the list of namenodes (hostname only)
+    |   | 
+    |   + - + packets.sh: a script to install the required packets
+    |   | 
+    |   + - + paths.sh: generic paths (Java and Python)
+    |   | 
+    |   + - + requirements.txt: required Python libraries
+    |   | 
+    |   + - + spark-env-paths.sh
+    |   | 
+    |   + - + spark_paths.sh
+    |   | 
+    |   + - + yarn-site.xml
     |
-    + - + conf.py (variables)
     |
-    + - + data_loader.py: Data retrieval from Amazon S3
     |
-    + - + main.py: Spark initialization and main
+    + - + spark_fraud_detection
+    |   |
+    |   + - + classifier.py: Model construction and classification
+    |   |
+    |   + - + conf.py (variables)
+    |   |
+    |   + - + data_loader.py: Data retrieval from Amazon S3
+    |   |
+    |   + - + main.py: Spark initialization and main
+    |   |
+    |   + - + preprocessing.py: Data preprocessing (removing outliers and balancing)
+    |   |
+    |   + - + result_evaluator.py: Results evaluation phase
+    |   |
+    |   + - + utils.py: Utility functions
+    |   |
+    |   + - + variables.py (variables)
     |
-    + - + preprocessing.py: Data preprocessing (removing outliers and balancing)
     |
-    + - + result_evaluator.py: Results evaluation phase
-    |
-    + - + utils.py: Utility functions
-    |
-    + - + variables.py (variables)
+    + - + main.tf: Terraform main
+    |    
+    + - + output.tf: Terraform success output
+    |    
+    + - + variables.tf: Terraform variables
 ```
 
 ## Instructions
 
-1. Download spark-terraform and spark_fraud_detection
 
-```
-git clone https://github.com/marinimau/spark-terraform.git
+#### Download required resources and configure credentials
+
+1. Download and install [Terraform](https://terraform.io)
+
+2. Download this repository
+
+```shell script
 git clone https://github.com/marinimau/spark_fraud_detection.git
 ```
 
-2. Move "spark_fraud_detection" python files in the "app" directory inside "spark-terraform"
+3. Get your credentials from aws console and set them in the "terraform.tfvars"
+
+
+4. Get a .pem AWS key following the [guide](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) and put it in the root of the project. **Call it amzkey** 
+
+
+5. Go to the project root
+```shell script
+cd spark_fraud_detection
+```
+
+6. Generate a ssh key called localkey (you are in the root of the project) 
+
+```shell script
+ssh-keygen -f localkey
+```
+
+7. Remember to change the permissions of the amzkey.pem
+```shell script
+chmod 400 amzkey.pem
+```
+
+
+#### Launch Terraform
+
+8. Now you are ready to execute Terraform. Launch
+```shell script
+terraform init
+```
+
+and then
+
+```shell script
+terraform apply
+```
+
+It requires some time...
+
+If all it's ok skip the following section, otherwise you probably have an error related to the subnet id.
+
+
+#### Fix subnet-id error
+
+If you have an error related to the subnet-id:
+
+1. Open the aws terminal from the aws console and paste this command:
+
+```shell script
+aws ec2 describe-subnets
+```
+
+2. Copy the value of the field "subnet-id" of the second subnet and paste it as value of the field "subnet-id" in the file "variables.tf"
+
+3. Ensure that the IPs in the variables "namenode_ips" and "datanode_ips" are included in the subnet, if not change them in:
+
+* ./variables.tf 
+```
+
+...
+
+variable "namenode_ips" {
+    description = "the IPs for the namenode instances (each IP must be compatible with the subnet_id)"
+    default = {
+        "0" = "172.31.64.101" # change it
+    }
+}
+
+...
+
+variable "datanodes_ips" {
+    description = "the IPs for the datanode instances (each IP must be compatible with the subnet_id)"
+    default = {
+        "0" = "172.31.64.102" # change it
+        "1" = "172.31.64.103" # change it
+        "2" = "172.31.64.104" # change it
+        "3" = "172.31.64.105" # change it
+        "4" = "172.31.64.106" # change it
+        "5" = "172.31.64.107" # change it
+    }
+}
+
+...
 
 ```
-mv spark_fraud_detection/*.py spark-terraform/app/
+* ./configuration_files/hosts.txt (namenode ips and datanode ips, don't change the hostnames)
+* ./spark_fraud_detection/variables.py (conf_variables\["master_ip"])
+
+```python
+conf_variables = {
+    "master_ip": "172.31.64.101" if conf['REMOTE'] else "127.0.0.1",
+    "master_port": "7077" if conf["REMOTE"] else "<YOUR_MASTER_PORT>",
+    "protocol": "spark://"
+}
 ```
+
+*change in "master_ip" before the "if"*
+
+Launch Terraform again with "terraform apply"
+
+
+#### Connect to the namenode instance
+
+1. Connect to the namenode instance using ssh
+
+```shell script
+ssh -i <PATH_TO_SPARK_TERRAFORM>/amzkey.pem ubuntu@<PUBLIC_DNS>
+ ```
+
+you can find the <PUBLIC_DNS> of the namenode instance in the output of terraform apply when the configuration ends.
+
+2. After login execute on the master (one by one):
+ ```
+$HADOOP_HOME/sbin/start-dfs.sh
+$HADOOP_HOME/sbin/start-yarn.sh
+$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
+$SPARK_HOME/sbin/start-master.sh
+$SPARK_HOME/sbin/start-slaves.sh spark://s01:7077
+```
+
+3. Configure your aws credential
+
+```
+aws configure
+```
+
+put the same values used in the file terraform.tfvars
+
+**IMPORTANT**: region is '**us-east-1**'
+
+4. Launch the application
+```
+/opt/spark-3.0.1-bin-hadoop2.7/bin/spark-submit --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://s01:7077  --executor-cores 2 --executor-memory 14g main.py
+```
+
+5. Remember to do `terraform destroy` to delete your EC2 instances
 
 ## Configuration
 
@@ -116,13 +291,6 @@ The editable params are organized in 2 files:
 
 
 
-This project create an Hadoop and Spark cluster on Amazon AWS with Terraform
-
-1. [Variables](#Variables)
-2. [Software version](#Software-version)
-3. [Project Structure](#Project-Structure)
-4. [How to](#How-to)
-5. [See also](#See-also)
 
 ## Variables
 
@@ -144,91 +312,5 @@ This project create an Hadoop and Spark cluster on Amazon AWS with Terraform
 | hostnames      | Default private hostnames used for nodes   | See variables.tf      |
 
 
-## Software version
-* Default AMI image: ami-0885b1f6bd170450c (Ubuntu 20.04, amd64, hvm-ssd)
-* Spark: 3.0.1
-* Hadoop: 2.7.7
-* Python: last available (currently 3.8)
-* Java: openjdk 8u275 jdk
-
-## Project Structure
-
-* app/: folder where you can put your application, it will copied to the namenode
-* install-all.sh: script which is executed in every node, it install hadoop/spark and do all the configuration for you
-* main.tf: definition of the resources 
-* output.tf: terraform output declaration
-* variables.tf: terraform variable declaration
-
-
-## How to
-
-0. Download and install Terraform
-1. Download the project and unzip it
-2. Open the terraform project folder "spark-terraform-master/"
-3. Create a file named "terraform.tfvars" and paste this:
-```
-access_key="<YOUR AWS ACCESS KEY>"
-secret_key="<YOUR AWS SECRET KEY>"
-token="<YOUR AWS TOKEN>"
-```
-**Note:** without setting the other variables (you can find it on variables.tf), terraform will create a cluster on region "us-east-1", with 1 namenode, 3 datanode and with an instance type of m5.xlarge.
-
-3. Put your application files into the "app" terraform project folder 
-4. Open a terminal and generate a new ssh-key
-```
-ssh-keygen -f <PATH_TO_SPARK_TERRAFORM>/spark-terraform-master/localkey
-```
-Where `<PATH_TO_SPARK_TERRAFORM>` is the path to the /spark-terraform-master/ folder (e.g. /home/user/)
-
-5. Login to AWS and create a key pairs named **amzkey** in **PEM** file format. Follow the guide on [AWS DOCS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair). Download the key and put it in the spark-terraform-master/ folder.
-
-6. Open a terminal and go to the spark-terraform-master/ folder, execute the command
- ```
- terraform init
- terraform apply
- ```
- After a while (wait!) it should print some public DNS in a green color, these are the public dns of your instances.
-
-## Problems subnet id (usa la seconda)
- 1. trovare subnet con il comando
- 2. usare la subnet id della seconda delle 2 che escono 
- 3. sistemare gli ip in variables e configuration_files/ e in variables.py
-
-7. Connect via ssh to all your instances via
- ```
-ssh -i <PATH_TO_SPARK_TERRAFORM>/spark-terraform-master/amzkey.pem ubuntu@<PUBLIC DNS>
- ```
-
-8. Execute on the master (one by one):
- ```
-$HADOOP_HOME/sbin/start-dfs.sh
-$HADOOP_HOME/sbin/start-yarn.sh
-$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
-$SPARK_HOME/sbin/start-master.sh
-$SPARK_HOME/sbin/start-slaves.sh spark://s01:7077
-```
-
-9. Configure your aws credential
-
-```
-aws configure
-```
-
-region is 'us-east-1'
-
-
-
-
-9. You are ready to execute your app! Execute this command on the master
-```
-/opt/spark-3.0.1-bin-hadoop2.7/bin/spark-submit --packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://s01:7077  --executor-cores 2 --executor-memory 14g spark_fraud_detection/main.py
-```
-
-10. Remember to do `terraform destroy` to delete your EC2 instances
-
-**Note:** The steps from 0 to 5 (included) are needed only on the first execution ever
-
-
-## See also
- * [TransE PySpark](https://github.com/conema/TransE-pyspark): an application using this project
- * [hadoop-spark-cluster-deployment](https://github.com/kostistsaprailis/hadoop-spark-cluster-deployment): the starting point of this project
+## Credits
+ * [spark-terraform](https://github.com/conema/spark-terraform): a starting point for the Terraform configuration
