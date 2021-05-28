@@ -16,7 +16,7 @@ Detailed instructions are in the [this](#Instructions) section.
 ## Contents
 
 * [Dataset](#Dataset)
-* [Project structure](#Progect-structure)
+* [Project structure](#Project-structure)
 * [Instructions](#Instructions)
 * [Configuration](#Configuration)
 * [Dependencies](#Dependencies)
