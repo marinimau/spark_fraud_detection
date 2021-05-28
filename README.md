@@ -10,7 +10,7 @@ The algorithm is divided in the following phases:
 5. Model construction and classification
 8. Results evaluation
 
-To run this project you need to have an AWS account and run [Spark-Terraform](https://github.com/marinimau/spark-terraform) to build the infrastructure.
+To run this project you need to have an AWS account.
 Detailed instructions are in the [this](#Instructions) section.
 
 ## Contents
