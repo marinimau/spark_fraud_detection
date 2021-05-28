@@ -21,7 +21,7 @@ app_info = {
 }
 
 conf_variables = {
-    "master_ip": "172.31.80.101" if conf['REMOTE'] else "127.0.0.1",
+    "master_ip": "172.31.64.101" if conf['REMOTE'] else "127.0.0.1",
     "master_port": "7077" if conf["REMOTE"] else "<YOUR_MASTER_PORT>",
     "protocol": "spark://"
 }

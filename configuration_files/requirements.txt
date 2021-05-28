@@ -1,0 +1,6 @@
+findspark
+pyspark
+numpy
+pandas
+scipy
+boto3
