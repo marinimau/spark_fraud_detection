@@ -19,7 +19,7 @@ Detailed instructions are in the [this](#Instructions) section.
 * [Project structure](#Project-structure)
 * [Instructions](#Instructions)
 * [Configuration](#Configuration)
-* [Dependencies](#Dependencies)
+* [Python dependencies](#Python-dependencies)
 * [Results](#Results)
 * [Credits](#Credits)
 
@@ -306,7 +306,7 @@ The editable params are organized in 2 files:
 | local_configuration_files_path | string  | The local path of the configuration files | ./configuration_files/ |
 | remote_configuration_files_path | string  | The remote destination of the configuration files | /home/ubuntu/ |
 
-## Dependencies
+## Python dependencies
 
 * [Pyspark](https://pypi.org/project/pyspark/)
 * [Pandas](https://pypi.org/project/pandas/)
