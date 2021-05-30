@@ -261,8 +261,21 @@ The editable params are organized in 2 files:
 
 | Name           |  Type   | Description                                | Default               |
 |----------------|---------|--------------------------------------------|-----------------------|
-| REMOTE         |  bool   | if True use the params optimized for aws   | True                  |
-| VERBOSE        |  bool   | log in the standard output                 | True                  |
+| path_variables["java_home"]         |  string   | the path of the Java installation   | "/usr/lib/jvm/java-8-openjdk-amd64"        |
+| path_variables["spark_home"]         |  string   | the path of the Spark with Hadoop installation   | "/opt/spark-3.0.1-bin-hadoop2.7/"        |
+| spark_args        |  string   | the arguments for spark   | "--packages com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.7,org.apache.hadoop:hadoop-aws:2.7.7 --master spark://s01:7077  --executor-cores 2 --executor-memory 20g"        |
+| app_info["app_name"]         |  string   | the name for the Spark app   | "FraudDetection"        |
+| conf_variables["master_ip"]         |  string   | the Spark master ip (the same of the namenode IP)   | "172.31.64.101"        |
+| conf_variables["master_port"]         |  string   | the Spark master port  | "7077"        |
+| data_load_variables["use_lite_dataset"]         |  bool   | a flag for load a lite dataset (only for testing data load)   | False        |
+| data_load_variables["bucket"]         |  string   | the name of the S3 bucket    | "marinimau"        |
+| data_load_variables["dataset_name"]         |  string   | the name of the dataset inside the bucket    | "1.csv"        |
+| data_load_variables["lite_dataset_name"]         |  string   | the name of the lite dataset inside the bucket    | "1_lite.csv"        |
+| preprocessing_variables["balance_dataframe"]         |  bool   | flag to enable dataset balancing    | True       |
+| preprocessing_variables["remove_outliers"]         |  bool   | flag to enable outlier remotion    | False       |
+| preprocessing_variables["remove_threshold"]         |  integer   | remotion threshold    | True       |
+| classifier_variables["percentage_split_training"]         |  float   | percentage (in decimal values) for the training set    | 0.8       |
+| classifier_variables["training_test_spit_seed"]         |  int   | the seed for the randm splitting    | 698       |
 
 
 #### ./variables.py
