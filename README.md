@@ -305,6 +305,8 @@ The editable params are organized in 2 files:
 
 #### Classification
 
+![Classification results](./screenshots/classification_results.jpg)
+
 #### Time
 
 | #Instances     |  Time   |
