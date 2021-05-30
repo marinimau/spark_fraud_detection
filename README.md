@@ -249,12 +249,12 @@ The editable params are organized in 2 files:
 * conf.py 
 * variables.py
 
-#### conf.py
+#### conf.py (do not edit)
 
 | Name           |  Type   | Description                                | Default               |
 |----------------|---------|--------------------------------------------|-----------------------|
-| REMOTE         |  bool   | if True use the params optimized for aws   | True                  |
-| VERBOSE        |  bool   | log in the standard output                 | True                  |
+| REMOTE         |  bool   | local/remote configuration                 | True                  |
+| VERBOSE        |  bool   | enable log in the standard output          | True                  |
 
 #### variables.py
 
@@ -263,22 +263,23 @@ The editable params are organized in 2 files:
 | REMOTE         |  bool   | if True use the params optimized for aws   | True                  |
 | VERBOSE        |  bool   | log in the standard output                 | True                  |
 
-| Name           | Description                                | Default               |
-|----------------|--------------------------------------------|-----------------------|
-| region         | AWS region                                 | us-east-1             |
-| access_key     | AWS access key                             |                       |
-| secret_key     | AWS secret key                             |                       |
-| token          | AWS token                                  | null                  |
-| instance_type  | AWS instance type                          | m5.xlarge             |
-| ami_image      | AWS AMI image                              | ami-0885b1f6bd170450c |
-| key_name       | Name of the key pair used between nodes    | localkey              |
-| key_path       | Path of the key pair used between nodes    | .                     |
-| aws_key_name   | AWS key pair used to connect to nodes      | amzkey                |
-| amz_key_path   | AWS key pair path used to connect to nodes | amzkey.pem            |
-| namenode_count | Namenode count                             | 1                     |
-| datanode_count | Datanode count                             | 3                     |
-| ips            | Default private ips used for nodes         | See variables.tf      |
-| hostnames      | Default private hostnames used for nodes   | See variables.tf      |
+| Name           |  Type   | Description                                | Default               |
+|----------------|---------|--------------------------------------------|-----------------------|
+| region         | string  | The region for your EC2 instances          | us-east-1             |
+| access_key     | string  | Your AWS access key (don't change here)    |                       |
+| secret_key     | string  | Your AWS secret key (don't change here)    |                       |
+| token          | string  | Your AWS token (don't change here)         | null                  |
+| instance_type  | string  | EC2 instance type                          | m5.xlarge             |
+| ami_image      | string  | AMI code for the EC2 instances (OS image)  | ami-0885b1f6bd170450c |
+| key_name       | string  | The name of the local key                  | localkey              |
+| key_path       | string  | The directory that contain the local key   | .                     |
+| aws_key_name   | string  | The name of the key generated on AWS       | amzkey                |
+| amz_key_path   | string  | The path of the key generated on AWS       | ./amzkey.pem          |
+| subnet_id      | string  | The subnet-id for ec2 (see instructions)   | subnet-1eac9110       |
+| namenode_count | integer | The number of namenode EC2 instances       | 1                     |
+| datanode_count | integer | The number of datanode ec2 instances       | 3                     |
+| datanode_count | integer | The number of datanode ec2 instances       | 3                     |
+| hostnames      |  bool   | Default private hostnames used for nodes   | See variables.tf      |
 
 ## Dependencies
 
