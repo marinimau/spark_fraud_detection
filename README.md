@@ -246,22 +246,26 @@ put, when required, the same values used in the file terraform.tfvars
 ***Required only to customize the configuration: nothing in this section is necessary for normal operation.*<br>
 
 The editable params are organized in 2 files: 
-* conf.py 
-* variables.py
+* ./spark_fraud_detection/conf.py
+* * ./spark_fraud_detection/variables.py  
+* ./variables.py
 
-#### conf.py (do not edit)
+#### ./spark_fraud_detection/conf.py (don't edit)
 
 | Name           |  Type   | Description                                | Default               |
 |----------------|---------|--------------------------------------------|-----------------------|
 | REMOTE         |  bool   | local/remote configuration                 | True                  |
 | VERBOSE        |  bool   | enable log in the standard output          | True                  |
 
-#### variables.py
+#### ./spark_fraud_detection/variables.py
 
 | Name           |  Type   | Description                                | Default               |
 |----------------|---------|--------------------------------------------|-----------------------|
 | REMOTE         |  bool   | if True use the params optimized for aws   | True                  |
 | VERBOSE        |  bool   | log in the standard output                 | True                  |
+
+
+#### ./variables.py
 
 | Name           |  Type   | Description                                | Default               |
 |----------------|---------|--------------------------------------------|-----------------------|
@@ -277,9 +281,17 @@ The editable params are organized in 2 files:
 | amz_key_path   | string  | The path of the key generated on AWS       | ./amzkey.pem          |
 | subnet_id      | string  | The subnet-id for ec2 (see instructions)   | subnet-1eac9110       |
 | namenode_count | integer | The number of namenode EC2 instances       | 1                     |
-| datanode_count | integer | The number of datanode ec2 instances       | 3                     |
-| datanode_count | integer | The number of datanode ec2 instances       | 3                     |
-| hostnames      |  bool   | Default private hostnames used for nodes   | See variables.tf      |
+| datanode_count | integer | The number of datanode EC2 instances       | 3                     |
+| namenode_ips   | list    | The IPs for the namenode EC2 instances     | \["0" = "172.31.64.101"]      |
+| namenode_hostnames      | list    | The hostnames for the namenode EC2 instances   | \["0" = "s01"]                |
+| datanode_ips   | list    | The IPs for the namenode EC2 instances     | \["0" = "172.31.64.102", ...,  "5" = "172.31.64.107]      |
+| datanode_hostnames      | list    | The hostnames for the datanode EC2 instances   | \["0" = "s01", ..., "5" = "s07"]                |
+| local_app_path | string  | The local path for your app (Python files) | ./spark_fraud/detection/ |
+| remote_app_path | string  | The remote destination path for your app (Python files) | /home/ubuntu/ |
+| local_configuration_script_path | string  | The local path of the configuration script | ./configuration_script.sh |
+| remote_configuration_script_path | string  | The remote destination of the configuration script | /tmp/configuration_script.sh |
+| local_configuration_files_path | string  | The local path of the configuration files | ./configuration_files/ |
+| remote_configuration_files_path | string  | The remote destination of the configuration files | /home/ubuntu/ |
 
 ## Dependencies
 
