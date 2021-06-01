@@ -322,14 +322,14 @@ The editable params are organized in 2 files:
 
 #### Time
 
-| #Instances     |  Time   |
-|----------------|---------|
-| 1              |  -   |
-| 2              |  -   |
-| 3              |  -   |
-| 4              |  -   |
-| 5              |  -   |
-| 6              |  -   |
+| #Datanode instances |  Time in seconds   |
+|---------------------|--------------------|
+| 1                   |  -   |
+| 2                   |  -   |
+| 3                   |  63.6444           |
+| 4                   |  -   |
+| 5                   |  -   |
+| 6                   |  -   |
 
 
 ## Credits
