@@ -231,8 +231,9 @@ aws configure
 ```
 
 put, when required, the same values used in the file terraform.tfvars
-
 **IMPORTANT**: region is '**us-east-1**'
+
+
 
 4. Launch the application
 ```
@@ -324,8 +325,8 @@ The editable params are organized in 2 files:
 
 | #Datanode instances |  Time in seconds   |
 |---------------------|--------------------|
-| 1                   |  58.074            |
-| 2                   |  -   |
+| 1                   |  58.0740           |
+| 2                   |  57.3653           |
 | 3                   |  63.6444           |
 | 4                   |  -   |
 | 5                   |  -   |
