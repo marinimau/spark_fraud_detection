@@ -11,6 +11,7 @@ sudo /home/ubuntu/packets.sh
 
 # install python libraries
 pip3 install -r /home/ubuntu/requirements.txt
+pip3 install awscli --upgrade # to avoid an error
 
 # master and slaves ip (you can add more if needed)
 cat /home/ubuntu/hosts.txt | sudo tee --append /etc/hosts > /dev/null
