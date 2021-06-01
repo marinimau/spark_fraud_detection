@@ -247,7 +247,7 @@ put, when required, the same values used in the file terraform.tfvars
 
 The editable params are organized in 2 files: 
 * ./spark_fraud_detection/conf.py
-* * ./spark_fraud_detection/variables.py  
+* ./spark_fraud_detection/variables.py  
 * ./variables.py
 
 #### ./spark_fraud_detection/conf.py (don't edit)
@@ -324,7 +324,7 @@ The editable params are organized in 2 files:
 
 | #Datanode instances |  Time in seconds   |
 |---------------------|--------------------|
-| 1                   |  -   |
+| 1                   |  58.074            |
 | 2                   |  -   |
 | 3                   |  63.6444           |
 | 4                   |  -   |
