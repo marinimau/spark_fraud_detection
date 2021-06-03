@@ -332,7 +332,7 @@ The editable params are organized in 2 files:
 | 3                   |  64.6444           |
 | 4                   |  63.1911           |
 | 5                   |  56.9027           |
-| 6                   |  61.4923           |
+| 6                   |  56.4193           |
 
 ![Time Results](./screenshots/time_results.png)
 
