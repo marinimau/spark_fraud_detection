@@ -1,6 +1,6 @@
 # Spark fraud detection
 
-An implementation of a distributed machine learning algorithm on Spark able to identify fraud in credit card transactions.<br>
+An implementation of a distributed machine learning algorithm using Spark able to identify fraud in credit card transactions.<br>
 This repository contains both the ML algorithm and the code to configure the AWS EC2 nodes to run it.<br>
 
 The algorithm is divided in the following phases:
